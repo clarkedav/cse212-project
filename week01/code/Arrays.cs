@@ -13,10 +13,14 @@ public static class Arrays
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
 
-        // Step 1: Create an array that can hold 'length' values
+    // Step 1: Create an array that will hold the result.
+    // The size of the array must be 'length' because we need exactly
+    // that many multiples.
         double[] result = new double[length];
 
-        // Step 2: Loop through each index of the array
+    
+    // Step 2: Use a loop that runs 'length' times.
+    // Each loop iteration will calculate one multiple of the number.
         for (int i = 0; i < length; i++)
         {
             // Step 3: Each multiple is the number times (i + 1)
@@ -44,7 +48,7 @@ public static class Arrays
         // Remember: Using comments in your program, write down your process for solving this problem
         // step by step before you write the code. The plan should be clear enough that it could
         // be implemented by another person.
-    // Step 1: If amount equals the list size, rotation changes nothing
+    // Step 1: If the rotation amount equals the list size, rotation changes nothing.
         if (amount == data.Count)
             return;
 
