@@ -1,4 +1,92 @@
-﻿/// <summary>
+﻿public class CustomerService
+{
+    public static void Run()
+    {
+        Console.WriteLine("Customer Service Queue Tests");
+
+        // Test 1: Create a queue and add 1 customer
+        Console.WriteLine("Test 1");
+        var cs = new CustomerService(3);
+        cs.AddNewCustomer("Alice", "A01", "Password Reset");
+        cs.ServeCustomer();
+        Console.WriteLine("=================");
+
+        // Test 2: Try to add more customers than max size
+        Console.WriteLine("Test 2");
+        cs = new CustomerService(2);
+        cs.AddNewCustomer("Bob", "B01", "Email Issue");
+        cs.AddNewCustomer("Charlie", "C01", "Login Issue");
+        cs.AddNewCustomer("David", "D01", "Network Issue"); // should show error
+        Console.WriteLine("=================");
+
+        // Test 3: Serve customer from empty queue
+        Console.WriteLine("Test 3");
+        cs = new CustomerService(2);
+        cs.ServeCustomer(); // should show error
+        Console.WriteLine("=================");
+    }
+
+    private readonly List<Customer> _queue = new();
+    private readonly int _maxSize;
+
+    public CustomerService(int maxSize)
+    {
+        _maxSize = maxSize <= 0 ? 10 : maxSize;
+    }
+
+    private class Customer
+    {
+        public Customer(string name, string accountId, string problem)
+        {
+            Name = name;
+            AccountId = accountId;
+            Problem = problem;
+        }
+
+        private string Name { get; }
+        private string AccountId { get; }
+        private string Problem { get; }
+
+        public override string ToString()
+        {
+            return $"{Name} ({AccountId}) : {Problem}";
+        }
+    }
+
+    // Overloaded AddNewCustomer for testing (no user input)
+    private void AddNewCustomer(string name, string accountId, string problem)
+    {
+        if (_queue.Count >= _maxSize)
+        {
+            Console.WriteLine("Maximum Number of Customers in Queue.");
+            return;
+        }
+
+        var customer = new Customer(name, accountId, problem);
+        _queue.Add(customer);
+    }
+
+    private void ServeCustomer()
+    {
+        if (_queue.Count == 0)
+        {
+            Console.WriteLine("Queue is empty, cannot serve customer.");
+            return;
+        }
+
+        var customer = _queue[0];
+        _queue.RemoveAt(0);
+        Console.WriteLine(customer);
+    }
+
+    public override string ToString()
+    {
+        return $"[size={_queue.Count} max_size={_maxSize} => " + string.Join(", ", _queue) + "]";
+    }
+}
+
+
+/* /// <summary>
 /// Maintain a Customer Service Queue.  Allows new customers to be 
 /// added and allows customers to be serviced.
 /// </summary>
@@ -103,4 +191,4 @@ public class CustomerService {
     public override string ToString() {
         return $"[size={_queue.Count} max_size={_maxSize} => " + string.Join(", ", _queue) + "]";
     }
-}
+} */
